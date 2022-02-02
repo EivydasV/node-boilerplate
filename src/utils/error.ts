@@ -6,7 +6,7 @@ import { ZodError } from 'zod'
 import log from './logger'
 
 const handleCastErrorDB = () => {
-  return new createError.BadRequest('Invalid data format')
+  return new createError.NotFound('Invalid Id')
 }
 const handleDuplicateError = () => {
   return new createError.Conflict('Duplicate field values')
@@ -46,23 +46,19 @@ const handleZodError = (err: ZodError) => {
   return createError(422, err.format())
 }
 export default (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof mongoose.Error.CastError) handleCastErrorDB()
-  else if (err instanceof ZodError) err = handleZodError(err)
-  else if (err.code === 11000) err = handleDuplicateError()
-  else if (err instanceof mongoose.Error.ValidationError)
+  if (err instanceof mongoose.Error.CastError) err = handleCastErrorDB()
+  if (err instanceof ZodError) err = handleZodError(err)
+  if (err.code === 11000) err = handleDuplicateError()
+  if (err instanceof mongoose.Error.ValidationError)
     err = handleValidationError(err, res)
-  else if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError')
+  if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError')
     err = handleJWTError(res)
-  else if (err.name === 'AuthenticationError') err = handleAuthenticationError()
-  else if (err.name === 'EBADCSRFTOKEN') err = handleCSRFError(err)
+  if (err.name === 'AuthenticationError') err = handleAuthenticationError
+  if (err.name === 'EBADCSRFTOKEN') err = handleCSRFError(err)
   // if (err instanceof multer.MulterError) error = handleMulterError(error)
   // if (err.name === "Error") error = handleRedisError(error);
-  else {
+
+  if (!(err instanceof createError.HttpError))
     err = new createError.InternalServerError()
-  }
-  console.log(
-    err instanceof createError.HttpError,
-    createError.isHttpError(err)
-  )
   return res.status(err.statusCode).json(err)
 }

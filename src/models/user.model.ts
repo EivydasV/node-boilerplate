@@ -20,21 +20,20 @@ export class User {
     trim: true,
     required: true,
     unique: true,
-    minlength: 4,
     maxlength: 50,
     validate: [validator.isEmail, 'Not valid Email'],
   })
   email!: string
 
-  @Prop({ trim: true, required: true, minlength: 3, maxlength: 50 })
+  @Prop({ trim: true, required: true, maxlength: 50 })
   firstName!: string
 
-  @Prop({ trim: true, required: true, minlength: 3, maxlength: 50 })
+  @Prop({ trim: true, required: true, maxlength: 50 })
   lastName!: string
 
   @Prop({
     required: true,
-    maxlength: 150,
+    maxlength: 200,
     select: false,
     validate: {
       validator: (password: string) =>
@@ -44,6 +43,12 @@ export class User {
     },
   })
   password!: string
+
+  @Prop()
+  passwordResetToken?: string
+
+  @Prop()
+  passwordResetTokenExpires?: Date
 
   async validatePassword(candidatePassword: string) {
     return await argon2.verify(this.password, candidatePassword)

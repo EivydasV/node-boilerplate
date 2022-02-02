@@ -12,8 +12,8 @@ const validateResource =
       params: req.params,
     })
     if (!validate.success) {
-      throw 'error'
-      // return createError(422, validate.error)
+      // throw 'error'
+      return next(createError(422, validate.error))
     }
     next()
   }

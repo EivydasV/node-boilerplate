@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts"
+    "dev": "ts-node-dev --poll --respawn --transpile-only src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,8 @@
     "@types/lodash": "^4.14.178",
     "@types/moment": "^2.13.0",
     "@types/morgan": "^1.9.3",
+    "@types/nodemailer": "^6.4.4",
+    "@types/tsscmp": "^1.0.0",
     "@types/validator": "^13.7.1",
     "pino-pretty": "^7.5.1",
     "ts-node-dev": "^1.1.8",
@@ -48,7 +50,9 @@
     "mongoose": "^6.1.8",
     "morgan": "^1.10.0",
     "nanoid": "^3.2.0",
+    "nodemailer": "^6.7.2",
     "pino": "^7.6.4",
+    "tsscmp": "^1.0.6",
     "validator": "^13.7.0",
     "xss-clean": "^0.1.1",
     "zod": "^3.11.6"

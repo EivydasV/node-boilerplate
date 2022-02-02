@@ -9,6 +9,8 @@ async function connectToDb() {
     await mongoose.connect(dbUri)
     log.info('connected to mongoDB')
   } catch (e) {
+    console.log(e)
+
     process.exit(1)
   }
 }

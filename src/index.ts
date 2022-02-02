@@ -1,4 +1,4 @@
-require('express-async-errors')
+import 'express-async-errors'
 require('dotenv').config()
 import createError from 'http-errors'
 import express, { Response, Request, NextFunction } from 'express'
@@ -43,7 +43,14 @@ app.use('/api/v1', Router)
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new createError.NotFound(`Can't find ${req.originalUrl} on this server`))
 })
+// import mailer from 'nodemailer'
 
+// const createFakeCreds = async () => {
+//   const creds = await mailer.createTestAccount()
+//   console.log({ creds })
+// }
+
+// createFakeCreds()
 app.use(error)
 
 const port = config.get<number>('port')
@@ -51,6 +58,7 @@ const server = app.listen(port, () => {
   log.info(`App started at http://localhost:${port}`)
   connectToDB()
 })
+
 process.on('unhandledRejection', (error: Error) => {
   console.log(error.name, error.message)
   console.log('Unhandled rejection! shutting down...')

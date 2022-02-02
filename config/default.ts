@@ -1,6 +1,13 @@
 export default {
-  port: 3000,
+  port: process.env.PORT,
   logLevel: 'info',
-  mongoUri:
-    'mongodb+srv://eivydas:eivydas1@testcluster.bj0kd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+  mongoUri: process.env.MONGO_URI,
+  smpt: {
+    user: 'kgeq6bfnhc2blgsr@ethereal.email',
+    pass: 'VMunvWy3xnBJvWMWr6',
+    host: 'smtp.ethereal.email',
+    from: 'test@gmail.com',
+    port: 587,
+    secure: false,
+  },
 }
