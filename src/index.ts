@@ -1,5 +1,5 @@
 import 'express-async-errors'
-require('dotenv').config()
+import 'dotenv/config'
 import createError from 'http-errors'
 import express, { Response, Request, NextFunction } from 'express'
 import config from 'config'

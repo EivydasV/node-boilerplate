@@ -5,14 +5,8 @@ import log from './logger'
 async function connectToDb() {
   const dbUri = config.get<string>('mongoUri')
 
-  try {
-    await mongoose.connect(dbUri)
-    log.info('connected to mongoDB')
-  } catch (e) {
-    console.log(e)
-
-    process.exit(1)
-  }
+  await mongoose.connect(dbUri)
+  log.info('connected to mongoDB')
 }
 
 export default connectToDb
