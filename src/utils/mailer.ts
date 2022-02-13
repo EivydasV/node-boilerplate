@@ -14,6 +14,9 @@ const smpt = config.get<Ismpt>('smpt')
 
 const transporter = mailer.createTransport({
   ...smpt,
+  tls: {
+    rejectUnauthorized: false,
+  },
   auth: {
     user: smpt.user,
     pass: smpt.pass,

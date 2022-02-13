@@ -21,7 +21,7 @@ export class User {
     required: true,
     unique: true,
     maxlength: 50,
-    validate: [validator.isEmail, 'Not valid Email'],
+    validate: [validator.isEmail, 'Not valid a Email'],
   })
   email!: string
 
@@ -44,17 +44,16 @@ export class User {
   })
   password!: string
 
-  @Prop()
+  @Prop({ select: false })
   passwordResetToken?: string
 
-  @Prop()
+  @Prop({ select: false })
   passwordResetTokenExpires?: Date
 
-  async validatePassword(candidatePassword: string) {
+  async comparePassword(candidatePassword: string) {
     return await argon2.verify(this.password, candidatePassword)
   }
 }
 
 const UserModel = getModelForClass(User)
-
 export default UserModel

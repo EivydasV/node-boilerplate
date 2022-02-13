@@ -58,7 +58,10 @@ export default (err: any, req: Request, res: Response, next: NextFunction) => {
   // if (err instanceof multer.MulterError) error = handleMulterError(error)
   // if (err.name === "Error") error = handleRedisError(error);
 
-  if (!(err instanceof createError.HttpError))
+  if (!(err instanceof createError.HttpError)) {
+    console.log({ err })
+
     err = new createError.InternalServerError()
+  }
   return res.status(err.statusCode).json(err)
 }

@@ -17,9 +17,9 @@ import cookieParser from 'cookie-parser'
 //@ts-ignore
 import xss from 'xss-clean'
 import path from 'path'
+import deserializeUser from './middlewares/deserializeUser'
+import mongoose from 'mongoose'
 
-// import connectToDb from './utils/connectToDb'
-// import router from './routes'
 process.on('uncaughtException', (error) => {
   console.log(error)
   console.log('Uncaught exception! shutting down...')
@@ -30,15 +30,21 @@ const app = express()
 app.use(compression())
 app.use(helmet())
 app.use(cors({ credentials: true }))
-app.use(cookieParser())
 app.use(morgan('dev'))
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser(config.get<string>('cookieSecret')))
 app.use(hpp())
 app.use(mongoSanitize())
 app.use(xss())
+
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
+app.use(deserializeUser)
+
 app.use('/api/v1', Router)
+
+// mongoose.set('debug', true)
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   next(new createError.NotFound(`Can't find ${req.originalUrl} on this server`))
