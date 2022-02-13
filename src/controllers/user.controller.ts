@@ -99,7 +99,7 @@ export const GetUserById: RequestHandler<GetByIdUserInput> = async (
   }
   res.status(200).json({ user })
 }
-export const UpdatePassword: RequestHandler<
+export const updatePassword: RequestHandler<
   {},
   {},
   UpdatePasswordUserInput
@@ -142,4 +142,10 @@ export const UpdateEmail: RequestHandler<{}, {}, UpdateEmailUserInput> = async (
   console.log({ redis: redisUser })
 
   res.status(200).json({ message: 'Email successfully updated' })
+}
+export const getAllUsers: RequestHandler = async (req, res, next) => {
+  const users = await UserModel.find({}).lean()
+  if (!users) return next(new createError.NotFound('Users not found'))
+
+  res.status(200).json({ users })
 }

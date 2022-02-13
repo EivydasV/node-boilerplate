@@ -3,10 +3,11 @@ import CheckInCache from '../utils/checkInCacheForUser'
 import {
   createUserHandler,
   forgotPasswordHandler,
+  getAllUsers,
   GetUserById,
   resetPasswordHandler,
   UpdateEmail,
-  UpdatePassword as updatePassword,
+  updatePassword,
 } from '../controllers/user.controller'
 import validateResource from '../middlewares/validateResource'
 import {
@@ -54,5 +55,6 @@ router.post(
 router
   .route('/')
   .post(validateResource(createUserValidation), createUserHandler)
+  .get(getAllUsers)
 
 export default router
